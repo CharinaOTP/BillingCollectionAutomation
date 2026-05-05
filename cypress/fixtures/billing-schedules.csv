@@ -1,0 +1,4 @@
+readingDate,billingDate,finalNoticeDate,dueDate,bankDate,penaltyDate,regularBillDate,previousReadingDate,zoneNumber
+525,528,603,617,614,618,527,424,19
+526,529,604,618,615,619,528,425,20
+527,530,605,619,616,620,529,427,21
