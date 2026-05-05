@@ -62,8 +62,20 @@ describe('Billing Schedule CSV Upload', () => {
 
       const rows = parsed.data
 
+      // Converts 525 to 0525, 618 to 0618, but keeps 1225 as 1225
+      const fix = (val) => {
+        if (!val) return ''
+
+        return String(val)
+          .trim()
+          .replace('.0', '')
+          .padStart(4, '0')
+      }
+
       rows.forEach((row) => {
         cy.log(`Adding Billing Schedule for Zone ${row.zoneNumber}`)
+        cy.log(`Reading Date Fixed: ${fix(row.readingDate)}`)
+        cy.log(`Billing Date Fixed: ${fix(row.billingDate)}`)
 
         // Wait for notification to disappear before clicking Add
         cy.get('body').then(($body) => {
@@ -72,9 +84,7 @@ describe('Billing Schedule CSV Upload', () => {
               .should('not.exist')
           }
         })
-        
-      const fix = (val, len = 4) => String(val).trim().padStart(len, '0')
-      
+
         // Open Add Schedule modal
         cy.contains('button', 'Add a Schedule')
           .should('be.visible')
@@ -84,56 +94,56 @@ describe('Billing Schedule CSV Upload', () => {
         cy.get('#billingSchedulerForm_readingDate')
           .should('be.visible')
           .clear({ force: true })
-          .type(`${row.readingDate}{enter}`, { force: true })
+          .type(`${fix(row.readingDate)}{enter}`, { force: true })
 
         // Billing Date
         cy.get('#billingSchedulerForm_billingDate')
           .should('be.visible')
           .clear({ force: true })
-          .type(`${row.billingDate}{enter}`, { force: true })
+          .type(`${fix(row.billingDate)}{enter}`, { force: true })
 
         // Payment of Final Notice
         cy.get('#billingSchedulerForm_finalNoticeDate')
           .should('be.visible')
           .clear({ force: true })
-          .type(`${row.finalNoticeDate}{enter}`, { force: true })
+          .type(`${fix(row.finalNoticeDate)}{enter}`, { force: true })
 
         // Due Date
         cy.get('#billingSchedulerForm_dueDate')
           .should('be.visible')
           .clear({ force: true })
-          .type(`${row.dueDate}{enter}`, { force: true })
+          .type(`${fix(row.dueDate)}{enter}`, { force: true })
 
         // Last Day Bank Payment
         cy.get('#billingSchedulerForm_bankDate')
           .should('be.visible')
           .clear({ force: true })
-          .type(`${row.bankDate}{enter}`, { force: true })
+          .type(`${fix(row.bankDate)}{enter}`, { force: true })
 
         // First Day Surcharge
         cy.get('#billingSchedulerForm_penaltyDate')
           .should('be.visible')
           .clear({ force: true })
-          .type(`${row.penaltyDate}{enter}`, { force: true })
+          .type(`${fix(row.penaltyDate)}{enter}`, { force: true })
 
         // Regular Bill Date
         cy.get('#billingSchedulerForm_regularBillDate')
           .should('be.visible')
           .clear({ force: true })
-          .type(`${row.regularBillDate}{enter}`, { force: true })
+          .type(`${fix(row.regularBillDate)}{enter}`, { force: true })
 
         // Previous Reading Date
         cy.get('#billingSchedulerForm_previousReadingDate')
           .should('be.visible')
           .clear({ force: true })
-          .type(`${row.previousReadingDate}{enter}`, { force: true })
+          .type(`${fix(row.previousReadingDate)}{enter}`, { force: true })
 
-        // Zone Number from CSV
+        // Zone Number - do NOT use fix here
         cy.get('#billingSchedulerForm_zoneNumber')
           .should('be.visible')
           .click({ force: true })
           .clear({ force: true })
-          .type(`${String(row.zoneNumber)}{enter}`, { force: true })
+          .type(`${String(row.zoneNumber).trim()}{enter}`, { force: true })
 
         // Save
         cy.contains('.ant-modal-footer button', 'Save')
