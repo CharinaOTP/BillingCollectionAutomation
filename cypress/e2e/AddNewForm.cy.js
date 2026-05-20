@@ -54,7 +54,7 @@ describe('Billing Schedule CSV Upload', () => {
     cy.wait(2000)
 
     // Read CSV
-    cy.readFile('cypress/fixtures/billing-schedules.csv').then((csvText) => {
+    cy.readFile('cypress/fixtures/addbilling-schedules.csv').then((csvText) => {
       const parsed = Papa.parse(csvText, {
         header: true,
         skipEmptyLines: true,

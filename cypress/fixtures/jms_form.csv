@@ -1,0 +1,6 @@
+accountNumber,contactNumber,contactPerson,office,mode,waterSource,transactionCategory,jmsCode,area,detailedConcern,assessment,employee,dispatchedAt,respondedAt,completedAt,feedbackAt,result,remarks,status
+01-000001-0,9938834211,Charina Castillano,Matina,Walk-In,Dumoy,Complaint,100,North,Customer reported concern for validation.,For initial assessment.,2651,0205,0205,0205,0205,Completed,For monitoring,Completed
+01-000002-0,9938834212,Juan Dela Cruz,Bajada,Phone,Dumoy,Request,100,South,Customer requested service assistance.,For field validation.,2651,0205,0205,0205,0205,Completed,Assigned to field team,Completed
+01-000003-0,9938834213,Ana Santos,Toril,SMS,Tugbok,Report,100,North,Customer submitted a report for checking.,Report received and reviewed.,2651,0205,0205,0205,0205,Completed,For follow-up if needed,Completed
+01-000004-0,9938834214,Mark Reyes,Matina,Internal,Panacan,Inquiry,100,South,Internal inquiry for verification.,Inquiry verified.,2651,0205,0205,0205,0205,Completed,No further action required,Completed
+01-000005-0,9938834215,Liza Mae,Bajada,Email,Malagos,Follow-up,100,North,Customer followed up on previous concern.,For update and tracking.,2651,0205,0205,0205,0205,Completed,Follow-up recorded,Completed
