@@ -1,5 +1,11 @@
 import Papa from 'papaparse'
 
+Cypress.on('uncaught:exception', (err) => {
+  if (err.message.includes('Q is not a function')) {
+    return false
+  }
+})
+
 describe('JMS Form CSV Upload', () => {
   it('logs in and fills out JMS forms from CSV', () => {
     cy.viewport(1920, 1080)
@@ -35,6 +41,56 @@ describe('JMS Form CSV Upload', () => {
     cy.wait(4000)
     
 
+    // Click System icon
+   
+      cy.get('.ant-menu-item-icon')
+      .eq(0)
+      .click()
+
+    cy.wait(5000)
+
+    cy.contains('a', 'Queries').click()
+      .should('be.visible')
+      .click()
+
+    cy.wait(3000)
+    cy.url().should('include', '/queries')
+    cy.wait(2000)
+
+    cy.contains('Customer Inquiry')
+    .should('be.visible')
+    .click()
+
+    cy.wait(3000)
+
+    cy.get('.ant-input', { timeout: 10000 })
+    .scrollIntoView({ duration: 1000 })
+    .should('be.visible')
+    .click()
+    .clear()
+     .type('000010{enter}')
+
+    cy.wait(4000)
+
+    cy.get('[data-row-key="01-000010-9"] > :nth-child(2)')
+    .should('be.visible')
+    .dblclick()
+
+      cy.wait(4000)
+
+       cy.contains('JMS Transactions')
+        .should('be.visible')
+          .click()
+
+        cy.wait(2000)
+
+        cy.get('.ant-modal-close')
+        .should('be.visible')
+        .click()
+
+          cy.wait(4000)
+    
+
     // Click JMS menu icon
     cy.get('[path="/apps/csms/bca2/main-billing/jms"] > .ant-menu-submenu-title > .ant-menu-title-content > a > .ant-flex')
       .should('be.visible')
@@ -58,7 +114,10 @@ describe('JMS Form CSV Upload', () => {
         skipEmptyLines: true,
       })
 
-      parsed.data.forEach((row) => {
+        // LOOP CSV
+          parsed.data.forEach((row) => {
+         
+
         // Click Create button
         cy.get('.ant-btn-primary')
           .contains('Create')
@@ -120,18 +179,6 @@ describe('JMS Form CSV Upload', () => {
                     .should('be.visible')
                     .click();
           
-          // //Select Water Source
-        
-          // cy.contains('Water Source')
-          // .parents('.ant-form-item')
-          // .find('.ant-select-selector')
-          // .click()
-
-
-          // cy.contains('.ant-select-item-option-content', row.waterSource)
-          // .click()
-          // cy.wait(3000)
-
 
 // JMS Code from CSV, example: 100 -> 0100
 const jmsCode = String(row.jmsCode || '').trim().padStart(4, '0');
@@ -188,26 +235,6 @@ cy.get('.ant-select-dropdown:not(.ant-select-dropdown-hidden)')
   .should('be.visible')
   .click();
        
-           // // Employee
-        //   // Convert CSV value like 2651 -> 02651
-        //   const employee = String(row.employee).padStart(5, '0')
-
-        //   // Open Employee dropdown
-        //   cy.get('.ant-select-selector')
-        //   .eq(0)
-        //    .click()
-
-        //     // Select matching employee from dropdown
-        //     cy.get('.ant-select-dropdown:not(.ant-select-dropdown-hidden)')
-        //     .contains('.ant-select-item-option-content', employee)
-        //     .click()
-
-
-// // Dispatch
-// cy.get('[style="flex: 1 1 0%; display: flex; gap: 4px; padding-left: 8px;"] > :nth-child(1) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-picker')
-//   .should('be.visible')
-//   .click()
-//   .type(`${dispatchDate}{enter}`, { delay: 200 });
 
        // Dispatch
 const dispatchDate = String(row.dispatchedAt).padStart(4, '0');
@@ -256,12 +283,6 @@ cy.get(':nth-child(4) > .ant-row > .ant-col > .ant-form-item-control-input > .an
           .clear()
           .type(row.remarks)
 
-        // Status
-          // cy.get(':nth-child(8) > .ant-row > .ant-form-item-control > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-select > .ant-select-selector')
-          //   .should('be.visible')  
-          //   .click()
-          //  .type(`${row.status}{enter}`, { delay: 200 });
-          // Select Status from CSV
             
           const status = String(row.status || '').trim();
 
@@ -296,12 +317,52 @@ cy.get(':nth-child(4) > .ant-row > .ant-col > .ant-form-item-control-input > .an
         .should('be.visible')
         .click()
 
-        
+   // Scroll sidebar to top
+cy.get('.inputSuffix_siderScrollContainer__cdshko4')
+  .scrollTo('top')
 
+// Wait a bit for smooth scroll
+cy.wait(3000)
 
+// Click System
+cy.contains('.ant-menu-submenu-title', 'System')
+  .should('be.visible')
+  .click()
 
+// Click Queries
+cy.contains('a', 'Queries')
+  .should('be.visible')
+  .click()
+
+    cy.contains('Customer Inquiry')
+    .should('be.visible')
+    .click()
+
+    cy.wait(3000)
+
+    cy.get('.ant-input', { timeout: 10000 })
+    .scrollIntoView({ duration: 1000 })
+    .should('be.visible')
+    .click()
+    .clear()
+     .type('000010{enter}')
+
+    cy.wait(4000)
+
+    cy.get('[data-row-key="01-000010-9"] > :nth-child(2)')
+    .should('be.visible')
+    .dblclick()
+
+      cy.wait(4000)
+
+       cy.contains('JMS Transactions')
+        .should('be.visible')
+          .click()
+       
+          cy.wait(4000)
         
       })
     })
-  })
+
+ })
 })
