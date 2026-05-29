@@ -212,40 +212,55 @@ cy.get('.ant-select-dropdown:not(.ant-select-dropdown-hidden)')
   .click();
        
 
-       // Dispatch
-const dispatchDate = String(row.dispatchedAt).padStart(4, '0');
+        const dispatchDate = String(row.dispatchedAt).padStart(4, '0');
 
-cy.get('[style="flex: 1 1 0%; display: flex; gap: 4px; padding-left: 8px;"] > :nth-child(1) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-picker')
-  .should('be.visible')
-  .click()
-  .type(`${dispatchDate}{enter}`, { delay: 300 });
+        cy.get('#dispatchDateTime1')
+          .should('be.visible')
+          .click()
+          .clear({ force: true })
+          .type(`${dispatchDate}{enter}`, { force: true })
 
-
-// Responded
-const respondedDate = String(row.respondedAt).padStart(4, '0');
-
-cy.get(':nth-child(2) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-picker')
-  .should('be.visible')
-  .click()
-  .type(`${respondedDate}{enter}`, { delay: 300 });
+        cy.get('#dispatchDateTime1')
+          .should('have.value', dispatchDate)
 
 
-// Completed
-const completedDate = String(row.completedAt).padStart(4, '0');
+        // Responded
+        const respondedDate = String(row.respondedAt).padStart(4, '0');
 
-cy.get(':nth-child(3) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-picker')
-  .should('be.visible')
-  .click()
-  .type(`${completedDate}{enter}`, { delay: 300 });
+        cy.get('#dispatchDateTime2')
+          .should('be.visible')
+          .click()
+          .clear({ force: true })
+          .type(`${respondedDate}{enter}`, { force: true })
+
+        cy.get('#dispatchDateTime2')
+          .should('have.value', respondedDate)
 
 
-// Feedback
-const feedbackDate = String(row.feedbackAt).padStart(4, '0');
+        // Completed
+        const completedDate = String(row.completedAt).padStart(4, '0');
 
-cy.get(':nth-child(4) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-picker')
-  .should('be.visible')
-  .click()
-  .type(`${feedbackDate}{enter}`, { delay: 300 });
+        cy.get('#dispatchDateTime3')
+          .should('be.visible')
+          .click()
+          .clear({ force: true })
+          .type(`${completedDate}{enter}`, { force: true })
+
+        cy.get('#dispatchDateTime3')
+          .should('have.value', completedDate)
+
+        // Feedback
+        const feedbackDate = String(row.feedbackAt).padStart(4, '0');
+
+        cy.get('#dispatchDateTime4')
+          .should('be.visible')
+          .click()
+          .clear({ force: true })
+          .type(`${feedbackDate}{enter}`, { force: true })
+
+        cy.get('#dispatchDateTime4')
+          .should('have.value', feedbackDate)
+
 
            //Result
            cy.get('#result')
@@ -587,6 +602,7 @@ cy.get(':nth-child(4) > .ant-row > .ant-col > .ant-form-item-control-input > .an
            .should('be.visible')
         .click()
           cy.wait(4000)
+          
 
         
       })
